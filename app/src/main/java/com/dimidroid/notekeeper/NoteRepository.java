@@ -10,8 +10,7 @@ import java.util.concurrent.Executors;
 
 public class NoteRepository {
 
-    private NoteDao dao;
-    private NoteDatabase noteDatabase;
+    private final NoteDao dao;
 
     LiveData<List<Note>> noteList;
 
@@ -19,8 +18,8 @@ public class NoteRepository {
 
     public NoteRepository(Application application){
 
-        noteDatabase = NoteDatabase.getInstance(application);
-        NoteDao dao = noteDatabase.dao();
+        NoteDatabase noteDatabase = NoteDatabase.getInstance(application);
+        dao = noteDatabase.dao();
         noteList = dao.getAllNotes();
 
     }
