@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#94C973"
+    tools:context=".AddNoteActivity">
+
+    <EditText
+        android:id="@+id/editTextTitleAdd"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#94C973"
+        android:ems="10"
+        android:hint="title"
+        android:inputType="textPersonName"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8dp" />
+
+
+    <EditText
+        android:id="@+id/editTextNotesAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="notes"
+        android:background="#94C973"
+        android:textColor="@color/black"
+        android:singleLine="false"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTitleAdd"
+        tools:layout_editor_absoluteX="60dp"
+        android:inputType="textMultiLine"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="500dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextTitleAdd"
+        app:layout_constraintVertical_bias="0.959"
+        android:src="@drawable/ic_check"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
