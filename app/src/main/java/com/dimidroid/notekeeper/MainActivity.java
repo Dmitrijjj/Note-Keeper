@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     NoteViewModel noteViewModel;
     NoteAdapter adapter;
     ActivityResultLauncher<Intent> activityResultLauncherForAddNote;
+    ActivityResultLauncher<Intent> activityResultLauncherForEditNote;
     List<Note> noteList;
 
     @Override
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         connectAdapter();
 
         registerActivityForAddNote();
+
+        registerForEditActivity();
 
         noteViewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication())
                 .create(NoteViewModel.class);
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                return true;
             }
 
             @Override
@@ -75,6 +78,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 goToAddNoteActivity();
+            }
+        });
+
+        adapter.onItemClick(new NoteAdapter.ItemClickListenerI() {
+            @Override
+            public void onItemClick(Note note) {
+                Intent intent = new Intent(MainActivity.this, EditNoteActivity.class);
+                intent.putExtra("id", note.getId());
+                intent.putExtra("title", note.getTitle());
+                intent.putExtra("description", note.getDescription());
+                intent.putExtra("date", note.getDate());
+                activityResultLauncherForEditNote.launch(intent);
             }
         });
 
@@ -102,24 +117,17 @@ public class MainActivity extends AppCompatActivity {
     private void filter(String newText) {
 
         List<Note> filteredList = new ArrayList<>();
-
         for (Note singleNote : noteList){
 
             if (singleNote.getTitle().toLowerCase().contains(newText.toLowerCase())
-                    || singleNote.getDescription().toLowerCase().contains(newText.toLowerCase())
-                    || singleNote.getDate().toLowerCase().contains(newText.toLowerCase())){
-
+                    || singleNote.getDescription().toLowerCase().contains(newText.toLowerCase())){
                 filteredList.add(singleNote);
-
             }
+
         }
 
-        if (filteredList.isEmpty()){
-            Toast.makeText(MainActivity.this, "Notes not found", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            adapter.filterList(filteredList);
-        }
+        adapter.filterList(filteredList);
+
     }
 
     private void goToAddNoteActivity() {
@@ -143,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
 
         fab = findViewById(R.id.fab);
         searchView = findViewById(R.id.searchView);
-        searchView.clearFocus();
         recyclerView = findViewById(R.id.recyclerView);
 
     }
@@ -170,5 +177,31 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    public void registerForEditActivity(){
+
+        activityResultLauncherForEditNote = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+
+                        Intent data = result.getData();
+                        int resultCode = result.getResultCode();
+
+                        if (resultCode == RESULT_OK && data != null){
+                            String newTitle = data.getStringExtra("newTitle");
+                            String newDescription = data.getStringExtra("newDescription");
+                            int id = data.getIntExtra("newId", -1);
+                            String date = data.getStringExtra("newDate");
+                            Note newNote = new Note(newTitle, newDescription, date);
+                            newNote.setId(id);
+                            noteViewModel.edit(newNote);
+                        }
+
+                    }
+                });
+
     }
 }

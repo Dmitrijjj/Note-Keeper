@@ -16,6 +16,12 @@ import java.util.Random;
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder>{
 
     List<Note> noteList = new ArrayList<>();
+    private ItemClickListenerI listener;
+
+    public void filterList(List<Note> filteredList){
+        this.noteList = filteredList;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -52,11 +58,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         return noteList.get(position);
     }
 
-    public void filterList(List<Note> filteredList){
-        this.noteList = filteredList;
-        notifyDataSetChanged();
-    }
-
     public int myRandomColor(){
 
         Random random = new Random();
@@ -83,7 +84,29 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             textViewDate = itemView.findViewById(R.id.textViewDate);
             cardView = itemView.findViewById(R.id.cardView);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    int position = getAbsoluteAdapterPosition();
+
+                    if (listener != null && position != RecyclerView.NO_POSITION){
+                        listener.onItemClick(noteList.get(position));
+                    }
+
+                }
+            });
+
         }
+    }
+
+    public interface ItemClickListenerI {
+        void onItemClick(Note note);
+    }
+
+    public void onItemClick(ItemClickListenerI listener){
+
+        this.listener = listener;
 
     }
 }
