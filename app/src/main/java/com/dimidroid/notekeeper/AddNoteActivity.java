@@ -67,4 +67,9 @@ public class AddNoteActivity extends AppCompatActivity {
         fab = findViewById(R.id.fabAdd);
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

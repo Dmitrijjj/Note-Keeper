@@ -89,4 +89,9 @@ public class EditNoteActivity extends AppCompatActivity {
         fab = findViewById(R.id.fabEdit);
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
