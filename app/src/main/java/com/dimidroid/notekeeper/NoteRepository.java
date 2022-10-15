@@ -11,9 +11,7 @@ import java.util.concurrent.Executors;
 public class NoteRepository {
 
     private final NoteDao dao;
-
     LiveData<List<Note>> noteList;
-
     ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public NoteRepository(Application application){

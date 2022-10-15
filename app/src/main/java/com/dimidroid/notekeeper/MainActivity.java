@@ -1,5 +1,9 @@
 package com.dimidroid.notekeeper;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
@@ -14,6 +18,7 @@ import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     NoteViewModel noteViewModel;
     NoteAdapter adapter;
+    ActivityResultLauncher<Intent> activityResultLauncherForAddNote;
+    //List<Note> noteList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +48,24 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(List<Note> noteList) {
 
                 //Todo: update RecyclerView here
-
+                adapter.setNotes(noteList);
 
             }
         });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToAddNoteActivity();
+            }
+        });
+
+    }
+
+    private void goToAddNoteActivity() {
+
+        Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
+        activityResultLauncherForAddNote.launch(intent);
 
     }
 
@@ -62,5 +83,28 @@ public class MainActivity extends AppCompatActivity {
         searchView = findViewById(R.id.searchView);
         recyclerView = findViewById(R.id.recyclerView);
 
+    }
+
+    public void registerActivityForAddNote(){
+        activityResultLauncherForAddNote = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+
+                        int resultCode = result.getResultCode();
+                        Intent data = result.getData();
+
+                        if (resultCode == RESULT_OK && data != null){
+                            String title = data.getStringExtra("title");
+                            String description = data.getStringExtra("description");
+                            String date = data.getStringExtra("date");
+                            Note note = new Note(title, description, date);
+                            noteViewModel.add(note);
+
+                        }
+
+                    }
+                });
     }
 }
