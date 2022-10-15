@@ -8,6 +8,7 @@
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
+        app:showAsAction="ifRoom|withText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"

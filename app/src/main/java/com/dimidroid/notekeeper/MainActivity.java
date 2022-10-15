@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Insert;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     NoteViewModel noteViewModel;
     NoteAdapter adapter;
     ActivityResultLauncher<Intent> activityResultLauncherForAddNote;
+    List<Note> noteList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,19 @@ public class MainActivity extends AppCompatActivity {
                 //Todo: update RecyclerView here
                 adapter.setNotes(noteList);
 
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return true;
             }
         });
 
@@ -85,6 +99,29 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void filter(String newText) {
+
+        List<Note> filteredList = new ArrayList<>();
+
+        for (Note singleNote : noteList){
+
+            if (singleNote.getTitle().toLowerCase().contains(newText.toLowerCase())
+                    || singleNote.getDescription().toLowerCase().contains(newText.toLowerCase())
+                    || singleNote.getDate().toLowerCase().contains(newText.toLowerCase())){
+
+                filteredList.add(singleNote);
+
+            }
+        }
+
+        if (filteredList.isEmpty()){
+            Toast.makeText(MainActivity.this, "Notes not found", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            adapter.filterList(filteredList);
+        }
+    }
+
     private void goToAddNoteActivity() {
 
         Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
@@ -95,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
     private void connectAdapter() {
 
         adapter = new NoteAdapter();
+        noteList = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -105,11 +143,13 @@ public class MainActivity extends AppCompatActivity {
 
         fab = findViewById(R.id.fab);
         searchView = findViewById(R.id.searchView);
+        searchView.clearFocus();
         recyclerView = findViewById(R.id.recyclerView);
 
     }
 
     public void registerActivityForAddNote(){
+
         activityResultLauncherForAddNote = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {

@@ -33,7 +33,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         holder.textViewDescription.setText(currentNote.getDescription());
         holder.textViewDate.setText(currentNote.getDate());
 
-        holder.cardView.setCardBackgroundColor(holder.itemView.getResources().getColor(setColor()));
+        holder.cardView.setCardBackgroundColor(holder.itemView.getResources()
+                .getColor(myRandomColor(), null));
 
     }
 
@@ -51,7 +52,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         return noteList.get(position);
     }
 
-    public int setColor(){
+    public void filterList(List<Note> filteredList){
+        this.noteList = filteredList;
+        notifyDataSetChanged();
+    }
+
+    public int myRandomColor(){
 
         Random random = new Random();
         List<Integer> colorArray = new ArrayList<>();
