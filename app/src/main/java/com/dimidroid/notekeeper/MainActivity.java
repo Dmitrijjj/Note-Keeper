@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         connectAdapter();
 
+        registerActivityForAddNote();
+
         noteViewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication())
                 .create(NoteViewModel.class);
 
