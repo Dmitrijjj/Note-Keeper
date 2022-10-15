@@ -45,7 +45,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
         if (title.isEmpty() || description.isEmpty()){
             Toast.makeText(getApplicationContext(),
-                    "PLease, add title and notes", Toast.LENGTH_SHORT);
+                    "PLease, add title and notes", Toast.LENGTH_SHORT).show();
         }
         else {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -55,7 +55,7 @@ public class AddNoteActivity extends AppCompatActivity {
             setResult(RESULT_OK, intent);
             finish();
             Toast.makeText(getApplicationContext(),
-                    "New item was added", Toast.LENGTH_SHORT);
+                    "New item was added", Toast.LENGTH_SHORT).show();
         }
 
     }
