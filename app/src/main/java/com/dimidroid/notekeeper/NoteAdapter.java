@@ -6,10 +6,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder>{
 
@@ -31,6 +33,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         holder.textViewDescription.setText(currentNote.getDescription());
         holder.textViewDate.setText(currentNote.getDate());
 
+        holder.cardView.setCardBackgroundColor(holder.itemView.getResources().getColor(setColor()));
+
     }
 
     @Override
@@ -47,9 +51,23 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         return noteList.get(position);
     }
 
+    public int setColor(){
+
+        Random random = new Random();
+        List<Integer> colorArray = new ArrayList<>();
+        colorArray.add(R.color.green);
+        colorArray.add(R.color.blue);
+        colorArray.add(R.color.yellow);
+        colorArray.add(R.color.red);
+        int color = random.nextInt(colorArray.size());
+
+        return colorArray.get(color);
+        }
+
     public class NoteViewHolder extends RecyclerView.ViewHolder{
 
         TextView textViewTitle, textViewDescription, textViewDate;
+        CardView cardView;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,8 +75,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewDescription = itemView.findViewById(R.id.textViewDesc);
             textViewDate = itemView.findViewById(R.id.textViewDate);
+            cardView = itemView.findViewById(R.id.cardView);
 
         }
-    }
 
+    }
 }
+
+
