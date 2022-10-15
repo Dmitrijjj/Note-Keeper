@@ -1,6 +1,5 @@
 package com.dimidroid.notekeeper;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +36,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @Override
     public int getItemCount() {
         return noteList.size();
+    }
+
+    public void setNotes(List<Note> notes){
+        this.noteList = notes;
+        notifyDataSetChanged();
     }
 
     public class NoteViewHolder extends RecyclerView.ViewHolder{
