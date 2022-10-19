@@ -1,4 +1,4 @@
-package com.dimidroid.notekeeper;
+package com.dimidroid.notekeeper.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dimidroid.notekeeper.Model.Note;
+import com.dimidroid.notekeeper.R;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,11 +20,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     List<Note> noteList = new ArrayList<>();
     private ItemClickListenerI listener;
-
-    public void filterList(List<Note> filteredList){
-        this.noteList = filteredList;
-        notifyDataSetChanged();
-    }
 
     @NonNull
     @Override

@@ -1,4 +1,4 @@
-package com.dimidroid.notekeeper;
+package com.dimidroid.notekeeper.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.dimidroid.notekeeper.MainActivity;
+import com.dimidroid.notekeeper.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Date;
@@ -17,7 +19,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
     EditText editTextTitle, editTextDescription;
     FloatingActionButton fab;
-    SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
+    SimpleDateFormat formatter;
     Date date;
 
     @Override
@@ -37,6 +39,8 @@ public class AddNoteActivity extends AppCompatActivity {
     }
 
     private void saveData() {
+
+        formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
 
         String title = editTextTitle.getText().toString();
         String description = editTextDescription.getText().toString();

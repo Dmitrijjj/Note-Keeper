@@ -6,7 +6,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -18,16 +17,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.dimidroid.notekeeper.Activities.AddNoteActivity;
+import com.dimidroid.notekeeper.Activities.EditNoteActivity;
+import com.dimidroid.notekeeper.Adapter.NoteAdapter;
+import com.dimidroid.notekeeper.Model.Note;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
     FloatingActionButton fab;
-    SearchView searchView;
     RecyclerView recyclerView;
     NoteViewModel noteViewModel;
     NoteAdapter adapter;
@@ -58,19 +59,6 @@ public class MainActivity extends AppCompatActivity {
                 //Todo: update RecyclerView here
                 adapter.setNotes(noteList);
 
-            }
-        });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filter(newText);
-                return true;
             }
         });
 
@@ -114,22 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void filter(String newText) {
-
-        List<Note> filteredList = new ArrayList<>();
-        for (Note singleNote : noteList){
-
-            if (singleNote.getTitle().toLowerCase().contains(newText.toLowerCase())
-                    || singleNote.getDescription().toLowerCase().contains(newText.toLowerCase())){
-                filteredList.add(singleNote);
-            }
-
-        }
-
-        adapter.filterList(filteredList);
-
-    }
-
     private void goToAddNoteActivity() {
 
         Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
@@ -150,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
     private void connectUIComponents() {
 
         fab = findViewById(R.id.fab);
-        searchView = findViewById(R.id.searchView);
         recyclerView = findViewById(R.id.recyclerView);
 
     }
@@ -202,6 +173,5 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-
     }
 }

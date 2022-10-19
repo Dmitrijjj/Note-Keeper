@@ -1,10 +1,13 @@
-package com.dimidroid.notekeeper;
+package com.dimidroid.notekeeper.Database;
 
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+
+import com.dimidroid.notekeeper.Dao.NoteDao;
+import com.dimidroid.notekeeper.Model.Note;
 
 @Database(entities = {Note.class}, version = 1)
 public abstract class NoteDatabase extends RoomDatabase {

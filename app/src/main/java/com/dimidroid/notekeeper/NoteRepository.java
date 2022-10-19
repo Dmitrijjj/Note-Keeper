@@ -4,6 +4,10 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.dimidroid.notekeeper.Dao.NoteDao;
+import com.dimidroid.notekeeper.Database.NoteDatabase;
+import com.dimidroid.notekeeper.Model.Note;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

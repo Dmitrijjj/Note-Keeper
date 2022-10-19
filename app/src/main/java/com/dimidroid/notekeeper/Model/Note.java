@@ -1,4 +1,4 @@
-package com.dimidroid.notekeeper;
+package com.dimidroid.notekeeper.Model;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
